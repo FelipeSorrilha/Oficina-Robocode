@@ -22,8 +22,7 @@ A apresentação utilizada durante a aula está disponível em:
 │   ├── Agressivo.java
 │   ├── Evasivo.java
 │   ├── Estrategico.java
-│   ├── COMANDOS.txt
-│   └── ...
+│   └── COMANDOS.txt
 ├── README.md
 ├── robocode-1.11.1-setup.jar
 └── slides.png
