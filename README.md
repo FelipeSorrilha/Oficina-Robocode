@@ -8,10 +8,6 @@ A oficina utiliza o **Robocode** como ambiente prático para desenvolver agentes
 
 Durante a atividade, os participantes recebem códigos-base e ferramentas de apoio para criar, modificar e testar diferentes estratégias de comportamento para seus robôs.
 
-A explicação completa do conteúdo e dos conceitos abordados está disponível no arquivo:
-
-**`material.html`**
-
 A apresentação utilizada durante a aula está disponível em:
 
 **`slides/`**
@@ -28,19 +24,14 @@ A apresentação utilizada durante a aula está disponível em:
 │   ├── Estrategico.java
 │   ├── COMANDOS.txt
 │   └── ...
-├── material.html
 ├── README.md
 ├── robocode-1.11.1-setup.jar
 └── slides.png
 ```
 
-### `material.html`
-
-Material completo da oficina, contendo a explicação dos conceitos e conteúdos utilizados durante a atividade.
-
 ### `slides/`
 
-Apresentação utilizada durante a aula.
+Apresentação utilizada durante a aula com explicação.
 
 ### `codigos/`
 
