@@ -69,7 +69,6 @@ Para consultar as informações oficiais:
 
 - **Robocode — GitHub:** https://github.com/robo-code/robocode
 - **Robocode — página oficial:** https://robocode.sourceforge.io/
-- **Robocode — documentação:** https://robocode.sourceforge.io/docs/
 
 ---
 
