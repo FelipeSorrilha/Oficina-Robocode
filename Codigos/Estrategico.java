@@ -24,6 +24,9 @@ public class Estrategico extends AdvancedRobot {
 
         double distancia = e.getDistance();
 
+        // Mira o canhao direto no inimigo (independente de pra onde o corpo vira)
+        double anguloCanhao = normalizeBearing(getHeading() - getGunHeading() + e.getBearing());
+        setTurnGunRight(anguloCanhao);
 
         // Muito perto = recua
         if (distancia < DISTANCIA_MINIMA) {
@@ -52,7 +55,8 @@ public class Estrategico extends AdvancedRobot {
         }
 
 
-        if (getGunHeat() == 0 && Math.abs(e.getBearing()) < 12) {
+        // So atira quando o canhao ja esta apontado pro inimigo
+        if (getGunHeat() == 0 && Math.abs(anguloCanhao) < 12) {
 
             if (getEnergy() < ENERGIA_CRITICA) {
                 // Poupa energia se a energia estiver critica
@@ -87,5 +91,12 @@ public class Estrategico extends AdvancedRobot {
         setBack(100);
         setTurnRight(60);
         direcao *= -1;
+    }
+
+    // Deixa o angulo sempre entre -180 e 180, pro canhao girar pelo caminho mais curto
+    double normalizeBearing(double angulo) {
+        while (angulo > 180) angulo -= 360;
+        while (angulo < -180) angulo += 360;
+        return angulo;
     }
 }
