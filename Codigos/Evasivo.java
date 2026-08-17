@@ -28,6 +28,10 @@ public class Evasivo extends AdvancedRobot {
 
     public void onScannedRobot(ScannedRobotEvent e) {
 
+        // Mira o canhao direto no inimigo (independente de pra onde o corpo vira)
+        double anguloCanhao = normalizeBearing(getHeading() - getGunHeading() + e.getBearing());
+        setTurnGunRight(anguloCanhao);
+
         // Se o inimigo estiver perto, aumenta a distancia 
         if (e.getDistance() < DISTANCIA_MINIMA) {
             direcao *= -1;
@@ -35,8 +39,8 @@ public class Evasivo extends AdvancedRobot {
             setTurnRight(60 * direcao);
         }
 
-        // Tiro fraco, a prioridade eh sobreviver
-        if (getGunHeat() == 0 && Math.abs(e.getBearing()) < 15) {
+        // Tiro fraco, a prioridade eh sobreviver, mas soh atira se estiver mirado
+        if (getGunHeat() == 0 && Math.abs(anguloCanhao) < 15) {
             if (e.getDistance() < 150) {
                 setFire(1.5);
             } else {
@@ -59,5 +63,12 @@ public class Evasivo extends AdvancedRobot {
         direcao *= -1;
         setBack(100);
         setTurnRight(90);
+    }
+
+    // Deixa o angulo sempre entre -180 e 180, pro canhao girar pelo caminho mais curto
+    double normalizeBearing(double angulo) {
+        while (angulo > 180) angulo -= 360;
+        while (angulo < -180) angulo += 360;
+        return angulo;
     }
 }
