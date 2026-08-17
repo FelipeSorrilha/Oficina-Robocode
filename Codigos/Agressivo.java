@@ -13,9 +13,8 @@ public class Agressivo extends AdvancedRobot {
         setAdjustRadarForGunTurn(true);
 
         while (true) {
-            // Mantem o radar e o canho procurando um inimigo
+            // Radar sempre girando pra achar um inimigo
             setTurnRadarRight(360);
-            setTurnGunRight(360);
 
             // Continua avancando
             setAhead(150);
@@ -26,23 +25,28 @@ public class Agressivo extends AdvancedRobot {
 
     public void onScannedRobot(ScannedRobotEvent e) {
 
-        // Tenta ficar mais perto do inimigo
-        if (e.getDistance() > DISTANCIA_PERTO) {
-            setTurnRight(e.getBearing());
-            setAhead(Math.min(e.getDistance() - DISTANCIA_PERTO, 150));
-        }
+        double distancia = e.getDistance();
 
+        // Mira o canhao direto no inimigo (independente de pra onde o corpo vira)
+        double anguloCanhao = normalizeBearing(getHeading() - getGunHeading() + e.getBearing());
+        setTurnGunRight(anguloCanhao);
+
+        // Tenta ficar mais perto do inimigo
+        if (distancia > DISTANCIA_PERTO) {
+            setTurnRight(e.getBearing());
+            setAhead(Math.min(distancia - DISTANCIA_PERTO, 150));
+        }
         // Se tiver muito perto, nao fica soh parado
         else {
             setTurnRight(e.getBearing() + 90);
             setAhead(50);
         }
 
-        // Atira mais forte quando esta perto
-        if (getGunHeat() == 0) {
-            if (e.getDistance() < 100) {
+        // So atira quando o canhao ja esta apontado pro inimigo
+        if (getGunHeat() == 0 && Math.abs(anguloCanhao) < 15) {
+            if (distancia < 100) {
                 setFire(3);
-            } else if (e.getDistance() < DISTANCIA_LONGE) {
+            } else if (distancia < DISTANCIA_LONGE) {
                 setFire(2);
             } else {
                 setFire(1);
@@ -58,9 +62,16 @@ public class Agressivo extends AdvancedRobot {
     }
 
     public void onHitWall(HitWallEvent e) {
-        
+
         // Evita ficar preso na parede.
         setBack(80);
         setTurnRight(90);
+    }
+
+    // Deixa o angulo sempre entre -180 e 180, pro canhao girar pelo caminho mais curto
+    double normalizeBearing(double angulo) {
+        while (angulo > 180) angulo -= 360;
+        while (angulo < -180) angulo += 360;
+        return angulo;
     }
 }
